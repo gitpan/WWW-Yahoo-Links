@@ -3,6 +3,6 @@ README
 Changes
 Makefile.PL
 lib/WWW/Yahoo/Links.pm
-t/00use.t
-t/local.t
+t/00-use.t
+t/01-fetch.t
 META.yml                                 Module meta-data (added by MakeMaker)

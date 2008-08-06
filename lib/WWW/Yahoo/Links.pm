@@ -8,9 +8,9 @@ use vars qw($VERSION);
 use LWP::UserAgent;
 use HTTP::Headers;
 
-use JSON;
+use JSON ();
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 sub new {
 	my $class = shift;
@@ -65,30 +65,34 @@ sub get {
   
 	my $resp = $self->{ua}->get ($query);
 	
-	if ($resp->is_success) {
+	my @result = (undef, $resp);
+	
+	while ($resp->is_success) {
 		
 		my $content = $resp->content;
 		
-		my $struct = from_json ($content, {utf8 => 1});
+		if ($content =~ /limit exceeded/) {
+			
+		}
 		
-		if (defined $struct and ! exists $struct->{Error}) {
-			$struct = $struct->{ResultSet};
-			if (defined $struct) {
-				if (wantarray) {
-					return ($struct->{totalResultsAvailable}, $resp, $struct);
-				} else {
-					return $struct->{totalResultsAvailable};
-				}
+		my $struct = JSON::from_json ($content, {utf8 => 1});
+		
+		if (defined $struct and ref $struct eq 'HASH') {
+			
+			$result[2] = $struct;
+			
+			if (exists $struct->{ResultSet}) {
+				$result[0] = $struct->{ResultSet}->{totalResultsAvailable};
 			}
 		}
 		
-
+		last;
 	}
 	
 	if (wantarray) {
-		return (undef, $resp);
+		return @result;
 	} else {
-		return;
+		return $result[0];
 	}
 }
 
@@ -164,6 +168,3 @@ Copyright 2008, Ivan Baktsheev
 
 You may use, modify, and distribute this package under the
 same terms as Perl itself.
-
-
-1;

@@ -8,6 +8,6 @@ WriteMakefile(
 	      AUTHOR => 'Ivan Baktsheev <dot.and.thing@gmail.com>',
 	      PREREQ_PM => {
 			    'LWP::UserAgent' => 0,
-			    'JSON' => 0,
+			    'JSON' => 2.10,
 			   }
 	     );

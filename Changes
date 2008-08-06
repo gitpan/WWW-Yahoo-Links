@@ -1,5 +1,15 @@
 2008-08-06  Ivan Baktsheev <dot.and.thing@gmail.com>
 	
+	Release 0.02
+
+	Corrected «Error» response handling
+	
+	Fixed JSON version in requirements
+	
+	Verbose testing
+
+2008-08-06  Ivan Baktsheev <dot.and.thing@gmail.com>
+	
 	Release 0.01
 
 	Initial module
